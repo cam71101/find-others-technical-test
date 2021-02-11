@@ -1,14 +1,18 @@
 <template>
-  <div id="app">
+  <div class="wrapper">
     <div v-bind:key="data.id" v-for="data in dataItems">
       <div v-if="!time" v-bind:data="data">
-        <Button v-on:click="fetchData(data)"> {{ data }}</Button>
+        <Button v-on:click="fetchData(data)" class="button-location">
+          {{ data }}</Button
+        >
       </div>
     </div>
 
     <h2 v-if="time">{{ time }}</h2>
-    <Button v-if="time" v-on:click="handleBack"> Back </Button>
-    <Button v-on:click="handleHome"> Home </Button>
+    <div class="btn-wrapper">
+      <Button v-if="time" v-on:click="handleBack" class="button"> Back </Button>
+      <Button v-on:click="handleHome" class="button"> Home </Button>
+    </div>
   </div>
 </template>
 <script>
@@ -81,9 +85,44 @@ body {
   font-family: Arial;
 }
 .wrapper {
-  height: 80vh;
-  margin-left: 20%;
-  margin-right: 20%;
-  margin-top: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.btn-wrapper {
+  display: flex;
+}
+.button {
+  background-color: red;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 1rem;
+}
+button:hover {
+  color: var(--color-hover);
+  cursor: pointer;
+}
+
+.button-location {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 1rem;
+}
+
+button-location:hover {
+  color: var(--color-hover);
+  cursor: pointer;
 }
 </style>
