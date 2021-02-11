@@ -1,39 +1,29 @@
 <template>
   <div id="app">
     <div v-bind:key="data.id" v-for="data in dataItems">
-      <!-- <v-button v-bind:data="data" v-on:click="fetchData" /> -->
       <div v-if="!time" v-bind:data="data">
         <Button v-on:click="fetchData(data)"> {{ data }}</Button>
       </div>
     </div>
+
     <h2 v-if="time">{{ time }}</h2>
+    <Button v-if="time" v-on:click="handleBack"> Back </Button>
+    <Button v-on:click="handleHome"> Home </Button>
   </div>
 </template>
 <script>
 import axios from 'axios';
 
-// import Button from './components/Button';
-
 export default {
-  // NAME APPLICATION
   name: 'App',
-  // IMPORT COMPONENTS
-  components: {
-    // Card,
-    // Spinner,
-    // custom tagname so it doesn't conflict with HTML
-    // 'v-header' : Header,
-    // 'v-button': Button,
-  },
-  // STATE
+  components: {},
   data() {
     return {
       dataItems: [],
-      currentArea: '',
+      areaItems: [],
       time: '',
     };
   },
-  //USE EFFECT
   created() {
     axios.get('http://worldtimeapi.org/api/timezone"').then((response) => {
       const array = [];
@@ -44,22 +34,11 @@ export default {
       });
       let uniqueValues = [...new Set(array)];
       this.dataItems = uniqueValues;
+      this.areaItems = uniqueValues;
     });
   },
-  // USE MEMO
-  // computed: {
-  //   filteredList() {
-  //     return this.streamers.filter((stream) => {
-  //       return stream.name.toLowerCase().includes(this.search.toLowerCase());
-  //     });
-  //   },
-  // },
-  // FUNCTIONS GO HERE
   methods: {
     fetchData: function(value) {
-      // `this` inside methods points to the Vue instance
-      // `event` is the native DOM event
-
       if (value.includes('/')) {
         axios
           .get('http://worldtimeapi.org/api/timezone/' + value)
@@ -80,6 +59,13 @@ export default {
             this.dataItems = response.data;
           });
       }
+    },
+    handleBack: function() {
+      this.time = '';
+    },
+    handleHome: function() {
+      this.dataItems = this.areaItems;
+      this.time = '';
     },
   },
 };
